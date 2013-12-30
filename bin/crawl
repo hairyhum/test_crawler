@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__)) + '/../src'
+require 'crawler'
+
+url = ARGV[0]
+
+unless url.start_with?('http://') or url.start_with?("https")
+  url = "http://#{url}"
+end
+
+puts "Check #{url}"
+
+result = Crawler::crawl(url)
+
+if result[:bad].empty?
+  puts "No bad links"
+else
+  puts "Bad links:"
+  result[:bad].each do |link|
+    puts link
+  end
+end
